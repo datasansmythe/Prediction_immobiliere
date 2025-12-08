@@ -63,7 +63,7 @@ jobs:
     name: Deploy to Hugging Face Spaces
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     
     steps:
     - name: Checkout code
@@ -78,11 +78,11 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         
-        git remote add space https://HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/HF_USERNAME/real-estate-prediction
-        git push --force space main
+        git remote add space https://DataSansMythe:$HF_TOKEN@huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere
+        git push --force space master
     
     - name: Notify deployment success
       if: success()
       run: |
         echo "✅ Deployment to Hugging Face Spaces successful!"
-        echo "🔗 App URL: https://huggingface.co/spaces/HF_USERNAME/real-estate-prediction"
+        echo "🔗 App URL: https://huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere"
