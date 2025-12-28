@@ -27,7 +27,8 @@ st.set_page_config(
 ## Définition de l'API / UI
 # -----------------------------
 
-st.image("./images/images.jfif", width='stretch')
+# st.image("./images/images.jfif", width='stretch')
+st.image("./images/images.jfif", use_container_width=True)
 st.markdown(
     """
     <h1 style='color: #EE82EE; font-weight: bold; text-align: center;'>
