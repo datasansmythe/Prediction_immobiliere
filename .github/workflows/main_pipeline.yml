@@ -55,19 +55,12 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          # Configuration de l'identité Git pour le runner
-          git config --global user.email "bot@github.com"
-          git config --global user.name "GitHub Action Bot"
-
           git lfs install
-
-          # On dit à LFS de suivre les fichiers .pkl s'ils ne le sont pas déjà
-          git lfs track "*.pkl"
-          git add .gitattributes 
-
-          # Ajout d'une télécommande (remote) spécifique pour Hugging Face
-          git remote add hf https://DataSansMythe:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere
-
-          # Push des objets LFS d'abord, puis du code
+          # On ajoute l'URL avec le token comme une télécommande nommée 'hf'
+          git remote add hf https://DataSansMythe:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere || true
+          
+          # On force d'abord l'envoi des fichiers lourds eux-mêmes
           git lfs push hf master
+          
+          # On envoie le code
           git push --force hf master
