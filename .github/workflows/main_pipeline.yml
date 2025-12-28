@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Checkout LFS objects
+        run: git lfs pull
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,7 +38,7 @@ jobs:
         run: |
           # Lance tes tests dans le dossier tests/
           pytest
-          
+
 # ÉTAPE 2 : DÉPLOIEMENT (CD)
   deploy:
     runs-on: ubuntu-latest
