@@ -51,13 +51,6 @@ jobs:
           fetch-depth: 0
           lfs: true 
 
-      - name: Install and Configure Git LFS
-        run: |
-          git lfs install
-          # On dit à LFS de suivre les fichiers .pkl s'ils ne le sont pas déjà
-          git lfs track "*.pkl"
-          git add .gitattributes
-
       - name: Push to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
@@ -65,6 +58,16 @@ jobs:
           # Configuration de l'identité Git pour le runner
           git config --global user.email "bot@github.com"
           git config --global user.name "GitHub Action Bot"
-          
-          # Tentative de push avec LFS
-          git push --force https://DataSansMythe:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere master
+
+          git lfs install
+
+          # On dit à LFS de suivre les fichiers .pkl s'ils ne le sont pas déjà
+          git lfs track "*.pkl"
+          git add .gitattributes 
+
+          # Ajout d'une télécommande (remote) spécifique pour Hugging Face
+          git remote add hf https://DataSansMythe:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere
+
+          # Push des objets LFS d'abord, puis du code
+          git lfs push hf master
+          git push --force hf master
