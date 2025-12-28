@@ -33,21 +33,33 @@ jobs:
         run: |
           # Lance tes tests dans le dossier tests/
           pytest
-
-  # ÉTAPE 2 : DÉPLOIEMENT (CD)
+          
+# ÉTAPE 2 : DÉPLOIEMENT (CD)
   deploy:
     runs-on: ubuntu-latest
-    needs: test # <--- IMPORTANT : Ne se lance que si 'test' réussit !
+    needs: test 
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          lfs: true
+          lfs: true 
+
+      - name: Install and Configure Git LFS
+        run: |
+          git lfs install
+          # On dit à LFS de suivre les fichiers .pkl s'ils ne le sont pas déjà
+          git lfs track "*.pkl"
+          git add .gitattributes
 
       - name: Push to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          # Configuration de l'identité Git pour le runner
+          git config --global user.email "bot@github.com"
+          git config --global user.name "GitHub Action Bot"
+          
+          # Tentative de push avec LFS
           git push --force https://DataSansMythe:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere master
