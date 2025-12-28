@@ -1,3 +1,14 @@
+---
+title: Prediction Immobiliere
+emoji: 🏙️
+colorFrom: blue
+colorTo: green
+sdk: streamlit
+sdk_version: 1.41.0
+app_file: app.py
+pinned: false
+---
+
 # 🏙️ Prédiction du Prix de l'Immobilier
 
 Ce projet est une application de Machine Learning permettant d'estimer le prix d'un bien immobilier en fonction de ses caractéristiques (surface, localisation, type de bâtiment, etc.). 

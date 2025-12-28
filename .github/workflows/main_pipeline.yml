@@ -56,11 +56,5 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           git lfs install
-          # On ajoute l'URL avec le token comme une télécommande nommée 'hf'
-          git remote add hf https://DataSansMythe:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere || true
-          
-          # On force d'abord l'envoi des fichiers lourds eux-mêmes
-          git lfs push hf master
-          
-          # On envoie le code
-          git push --force hf master
+          # Le push fonctionnera désormais car l'historique distant est propre
+          git push --force https://DataSansMythe:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/DataSansMythe/Prediction-Immobiliere master
